@@ -53,7 +53,7 @@ void switchTurn(){
     }
     
     if(turn == AI_VAL){
-      Move chosenAIMove = pickBestChoice(1, AI_VAL);
+      Move chosenAIMove = pickBestChoice(3, AI_VAL);
       squares[chosenAIMove.pos].pick(AI_VAL);
     }
   }
@@ -67,21 +67,20 @@ Move pickBestChoice(int movesAhead, int player){
   if(won(false, true)){
     if(player == AI_VAL){
       println("win predicted for AI");
-      return new Move(0, player, 100);
+      return new Move(0, player, -100);
     }else{
       println("win predicted for player");
-      return new Move(0, player, -100);
+      return new Move(0, player, 100);
     }
   }
   
   for(int i = 0; i < 9; i++) {
     if(squares[i].picked == 0) {
-      if(movesAhead >= 0){
+      if(movesAhead > 0){
         Move move = new Move(i, player, 0);
         squares[i].picked = player;
         if(player == AI_VAL){
           move.points = pickBestChoice(movesAhead-1, PLAYER_VAL).points;
-          println(move.points);
         }else{
           move.points = pickBestChoice(movesAhead-1, AI_VAL).points;
         }
@@ -90,7 +89,7 @@ Move pickBestChoice(int movesAhead, int player){
       }
     }
   }
-  if(movesAhead >= 0)
+  if(movesAhead > 0)
     return moveWithMostPoints(possibleMoves, player);
   else return new Move(0, player, 0);
 }
@@ -102,6 +101,7 @@ Move pickBestChoice(int movesAhead, int player){
 Move moveWithMostPoints(ArrayList<Move> moves, int player){
   Move chosenMove; //psoudo move with low points
   if(player == AI_VAL){
+    println("moves for AI: " + moves.size());
     chosenMove = new Move(10, 3, -1000);
     for(int i = 0; i < moves.size(); i++){
       if(moves.get(i).points > chosenMove.points){
@@ -113,6 +113,7 @@ Move moveWithMostPoints(ArrayList<Move> moves, int player){
   }
   else{
     chosenMove = new Move(10, 3, 1000);
+    println("moves for player: " + moves.size());
     for(int i = 0; i < moves.size(); i++){
       if(moves.get(i).points < chosenMove.points){
         chosenMove = moves.get(i);

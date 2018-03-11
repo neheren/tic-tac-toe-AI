@@ -53,7 +53,7 @@ void switchTurn(){
     }
     
     if(turn == AI_VAL){
-      Move chosenAIMove = pickBestChoice(1, AI_VAL);
+      Move chosenAIMove = pickBestChoice(2, AI_VAL);
       squares[chosenAIMove.pos].pick(AI_VAL);
     }
   }
@@ -76,7 +76,7 @@ Move pickBestChoice(int movesAhead, int player){
   
   for(int i = 0; i < 9; i++) {
     if(squares[i].picked == 0) {
-      if(movesAhead >= 0){
+      if(movesAhead > 0){
         Move move = new Move(i, player, 0);
         squares[i].picked = player;
         if(player == AI_VAL){

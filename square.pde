@@ -2,6 +2,7 @@ class square{
   int x, y, sWidth, sHeight, offset;
   int symbolOffset = 20;
   public int picked = 0;
+  boolean highlight = false;
   square(int i){
     sWidth =  rectSize/3;
     sHeight = rectSize/3;
@@ -25,12 +26,19 @@ class square{
     }
     rect(x+ offset, y + offset, sWidth, sHeight);
     if(picked == PLAYER_VAL){
+
       fill(255, 240, 240);
+      if(highlight){
+        fill(100, 100, 255);
+      }
       rect(x + offset + symbolOffset, y + offset + symbolOffset*2, sWidth- symbolOffset*2, sHeight- symbolOffset*4);
       rect(x + offset + symbolOffset*2, y + offset + symbolOffset, sWidth- symbolOffset*4, sHeight- symbolOffset*2);
     }
     if(picked == AI_VAL){
       fill(255, 240, 240);
+      if(highlight){
+        fill(100, 100, 255);
+      }
       ellipse(x + offset + symbolOffset*2.5, y + offset + symbolOffset*2.5, sWidth - symbolOffset*2, sHeight- symbolOffset*2);
     }
   }

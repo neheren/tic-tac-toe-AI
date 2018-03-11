@@ -53,7 +53,7 @@ void switchTurn(){
     }
     
     if(turn == AI_VAL){
-      Move chosenAIMove = pickBestChoice(1, AI_VAL);
+      Move chosenAIMove = pickBestChoice(2, AI_VAL);
       squares[chosenAIMove.pos].pick(AI_VAL);
     }
   }
@@ -62,37 +62,28 @@ void switchTurn(){
 
 
 Move pickBestChoice(int movesAhead, int player){
+  println("moves ahead_ " + movesAhead);
   ArrayList<Move> possibleMoves = new ArrayList<Move>();
-  
-  if(won(false, true)){
-    if(player == AI_VAL){
-      println("win predicted for AI");
-      return new Move(0, player, 100);
-    }else{
-      println("win predicted for player");
-      return new Move(0, player, -100);
-    }
-  }
-  
   for(int i = 0; i < 9; i++) {
     if(squares[i].picked == 0) {
-      if(movesAhead >= 0){
+      if(movesAhead > 0){
         Move move = new Move(i, player, 0);
         squares[i].picked = player;
         if(player == AI_VAL){
           move.points = pickBestChoice(movesAhead-1, PLAYER_VAL).points;
-          println(move.points);
         }else{
-          move.points = pickBestChoice(movesAhead-1, AI_VAL).points;
+          move.points = pickBestChoice(movesAhead-1, PLAYER_VAL).points;
         }
-        possibleMoves.add(move);
+        
+        
         squares[i].picked = 0;
+      }else{
+        return new Move(0, player, 0);
       }
+      
     }
   }
-  if(movesAhead >= 0)
-    return moveWithMostPoints(possibleMoves, player);
-  else return new Move(0, player, 0);
+  return moveWithMostPoints(possibleMoves, player);
 }
 
 
@@ -102,14 +93,12 @@ Move pickBestChoice(int movesAhead, int player){
 Move moveWithMostPoints(ArrayList<Move> moves, int player){
   Move chosenMove; //psoudo move with low points
   if(player == AI_VAL){
-    chosenMove = new Move(10, 3, -1000);
+  chosenMove = new Move(10, 3, -1000);
     for(int i = 0; i < moves.size(); i++){
       if(moves.get(i).points > chosenMove.points){
         chosenMove = moves.get(i);
       }
     }
-    return chosenMove;
-
   }
   else{
     chosenMove = new Move(10, 3, 1000);
