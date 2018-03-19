@@ -63,7 +63,6 @@ void switchTurn(){
 
 Move pickBestChoice(int movesAhead, int player){
   ArrayList<Move> possibleMoves = new ArrayList<Move>();
-  
   if(won(false, true)){
     if(player == AI_VAL){
       println("win predicted for AI");
@@ -109,7 +108,6 @@ Move moveWithMostPoints(ArrayList<Move> moves, int player){
       }
     }
     return chosenMove;
-
   }
   else{
     chosenMove = new Move(10, 3, 1000);
